@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
-import {StyleSheet,View} from 'react-native';
-import { Form,DatePicker,Picker,Container, Item,Input,Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text, Thumbnail } from 'native-base';
+import {StyleSheet,View,Alert} from 'react-native';
+import { Form,Picker,Container, Item,Input,Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text, Thumbnail } from 'native-base';
 import {connect} from 'react-redux';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Location, Permissions } from 'expo';
-
+import Signin from'../Screen/Signin';
+import DatePicker from 'react-native-datepicker';
 
 class AddPromenade extends Component {
   constructor(props) {
     super(props);
-    this.state = { chosenDate: new Date() ,
+    this.state = { chosenDate: null ,
     adress:'',
     description:'',
     warning:'',
@@ -17,7 +18,7 @@ class AddPromenade extends Component {
     lat:'',
     lng:''
   };
-    this.setDate = this.setDate.bind(this);
+    
     duree: undefined
     this._getLocationAsync=this._getLocationAsync.bind(this)
     this.AddaPromenade=this.AddaPromenade.bind(this);
@@ -38,7 +39,7 @@ class AddPromenade extends Component {
     var promenadeData = JSON.stringify({
       userId: this.props.user.userId,
       adress: this.state.adress,
-      date: this.state.chosenDate.toString().substr(4, 12),
+      date: this.state.chosenDate,
       duree: this.state.duree,
       description:this.state.description,
       warning:this.state.warning,
@@ -62,7 +63,8 @@ class AddPromenade extends Component {
       return res.json()
     }).then(function(data){
       console.log(data);
-      ctx.props.navigation.navigate('ListScreen');
+      Alert.alert('Promenade saved')
+      ctx.props.navigation.navigate('À venir');
     }).catch(function(err){
       console.log(err)
     })
@@ -98,21 +100,26 @@ class AddPromenade extends Component {
       warning:value
     })
   }
-  setDate(newDate) {
-    this.setState({ chosenDate: newDate });
-  }
 
   render() {
+   console.log('herrreeee',this.state.chosenDate)
     const geoloca = { description: 'Ma location', geometry: { location: { lat: this.state.currentlatitude, lng:this.state.currentlongitude } }};
-
+      if(!this.props.user.token){
+        return (<Signin navigation={this.props.navigation}/>)
+      }else{
     return (
+      
       <Container >
 
         <Content style={styles.container}>
-          <Thumbnail
+          <View style={{alignItems:'center',justifyContent:'center'}}>
+          <Thumbnail square
           large
          source={{uri: this.props.user.avatar}} >
           </Thumbnail>
+          <Text>{this.props.user.name} & {this.props.user.dog1}</Text>
+          </View>
+
           <Text style={styles.title}>
             Lieu:
           </Text>
@@ -171,23 +178,21 @@ class AddPromenade extends Component {
           <Text style={styles.title}>
             Quand:
           </Text>
-          <Item>
+          <View style={{flex:1, marginTop:10, marginLeft:10}}>
           <DatePicker
-            defaultDate={new Date(2019, 6, 4)}
-            minimumDate={new Date(2019, 5, 1)}
-            maximumDate={new Date(2022, 12, 31)}
-            locale={"en"}
-            timeZoneOffsetInMinutes={undefined}
-            modalTransparent={false}
-            animationType={"fade"}
-            androidMode={"default"}
-            placeHolderText="Select date"
-            // textStyle={styles.title}
-            placeHolderTextStyle={{ color: "#d3d3d3" }}
-            onDateChange={this.setDate}
-            disabled={false}
-            />
-          </Item>
+            style={{width: 200}}
+            date={this.state.chosenDate}
+            mode="date"
+            placeholder="Date"
+            format="DD/MM/YYYY"
+            minDate=" / / "
+            maxDate=" / / "
+            confirmBtnText="Confirmer"
+            cancelBtnText="Annuler"
+            showIcon={false}
+            onDateChange={(date) => {this.setState({chosenDate: date})}}
+          />
+        </View>
              {/* <Text>
               Date: {this.state.chosenDate.toString().substr(4, 12)}
             </Text> */}
@@ -245,7 +250,6 @@ class AddPromenade extends Component {
         </Content>
 
 
-
         <Footer>
           <FooterTab>
           <Button transparent primary onPress={ this.AddaPromenade}>
@@ -258,7 +262,7 @@ class AddPromenade extends Component {
 
       </Container>
     );
-  }
+  }}
 }
 
 const styles = StyleSheet.create({
@@ -266,10 +270,10 @@ const styles = StyleSheet.create({
     margin:50
   },
   title: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
-    marginTop:25,
-    marginBottom:10
+    marginTop:22,
+    marginBottom:8
   },
   button: {
     color: 'white',

@@ -22,14 +22,17 @@ class Promenade extends React.Component{
     await this.props.promenadeSelected(this.props.id);
   
     this.props.navigation.navigate('PromenadeScreen');
-    // this.props.onPress;
+    
   }
   
   render(){
+    var newDate = new Date(this.props.date);
+    var dateAffiche=newDate.getDate() + "/" + (newDate.getMonth() + "/" + newDate.getFullYear())
+
     return(
 
     <TouchableOpacity onPress={this.voir}>
-      <Card  style={this.props.user.userId==this.props.userId? styles.mypromenade:styles.promenade}>
+      <Card >
             <CardItem style={this.props.user.userId==this.props.userId? styles.mypromenade:styles.promenade}cardBody >
            
                 <Thumbnail style={{marginLeft:15,marginTop:10}}square large source={{uri: this.props.avatar}} />
@@ -38,13 +41,13 @@ class Promenade extends React.Component{
              <View style={{marginLeft:10,marginTop:10}}>
                   <View>
                   
-                  <Text style={{fontWeight: 'bold'}}><Icon style={{color:'blue',fontSize:15}} name="person" />  {this.props.username}</Text>
-                  <Text style={{fontWeight: 'bold'}}><Icon style={{color:'blue',fontSize:15}} name="paw" />  {this.props.dog1}</Text>
+                  <Text style={{fontWeight: 'bold'}}><Icon style={{color:'#0FA1AE',fontSize:15}} name="person" />  {this.props.username}</Text>
+                  <Text style={{fontWeight: 'bold'}}><Icon style={{color:'#0FA1AE',fontSize:15}} name="paw" />  {this.props.dog1}</Text>
                   </View>
 
                   <View style={{marginTop:8}}>
-                    <Text><Icon style={{color:'blue',fontSize:15}} name="pin" /> {this.props.adress}</Text>
-                    <Text><Icon style={{color:'blue',fontSize:15}} name="warning" /> {this.props.warning}</Text>
+                    <Text><Icon style={{color:'#0FA1AE',fontSize:15}} name="pin" /> {this.props.adress}</Text>
+                    <Text><Icon style={{color:'#0FA1AE',fontSize:15}} name="warning" /> {this.props.warning}</Text>
                   </View>
                  
               </View>
@@ -56,11 +59,11 @@ class Promenade extends React.Component{
               <Left>
                 <Button transparent>
                   <Icon active name="calendar" />
-                  <Text>{this.props.date}</Text>
+                  <Text>{dateAffiche}</Text>
                 </Button>
               </Left>
               <Body>
-                <Button transparent>
+                <Button transparent >
                   <Icon active name="people" />
                   <Text>{this.props.participant.length}participants</Text>
                 </Button>
@@ -87,7 +90,7 @@ const styles = StyleSheet.create({
    paddingTop:5,
  },
  mypromenade:{
-   backgroundColor:'#FFFFFF',
+   backgroundColor:'#c7ecee',
    flex:0
  },
  promenade:{

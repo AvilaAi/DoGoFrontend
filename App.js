@@ -7,14 +7,14 @@ import MapView from 'react-native-maps';
 import {Marker} from 'react-native-maps';
 import { Location, Permissions } from 'expo';
 
-import contactsList from './Reducers/contact.reducer';
 import userData from './Reducers/user.reducer';
 import promenade from'./Reducers/promenade.reducer';
-
+import promenadeDate from './Reducers/search.reducer';
+console.disableYellowBox = true;
 // Import modules related to Redux
 import {Provider} from 'react-redux';
 import {createStore, combineReducers}  from 'redux';
-const store = createStore(combineReducers({userData,promenade}));
+const store = createStore(combineReducers({userData,promenade,promenadeDate}));
 
 // In App.js, I just need to return my Navigation component. It is inside this component, that my components are rendered.
 // I must NOT wrap my Navigation component in a View component since it is not a not a View but only a mecanism of rendering views.

@@ -5,7 +5,7 @@ import {Header,Tab,Tabs,H3,TabHeading,Button,Content,Right,Spinner,Icon,Text,Foo
 import url from '../../config';
 import { connect } from 'react-redux';
 
-class ListScreen extends React.Component {
+class PromenadeTrouve extends React.Component {
   constructor(){
     super()
     this.state={
@@ -26,7 +26,7 @@ class ListScreen extends React.Component {
        }, 2000);
 
        var ctx = this;
-       fetch(`${url}/list_promenade`)
+       fetch(`${url}/chercher_promenade?date=${this.props.date}`)
        .then(function(response){
          return response.json();
        }).then(function(promenade){
@@ -43,7 +43,7 @@ class ListScreen extends React.Component {
 
   async componentDidMount() {
     var ctx = this;
-    await fetch(`${url}/list_promenade`)
+    fetch(`${url}/chercher_promenade?date=${this.props.date}`)
     .then(function(response){
       return response.json();
     }).then(function(promenade){
@@ -131,10 +131,11 @@ class ListScreen extends React.Component {
 
  
   function mapStateToProps(state) {
-    return { user: state.userData }
+    return { date: state.promenadeDate,
+        user: state.userData  }
   }
   
   export default connect(
       mapStateToProps,
       null
-  )(ListScreen);
+  )(PromenadeTrouve);

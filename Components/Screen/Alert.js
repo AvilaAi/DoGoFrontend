@@ -14,14 +14,14 @@ export default class Alert extends React.Component {
 
     return (
 <Container>
-      <ImageBackground style={{flex:1, opacity: 0.2}} source={require("../../assets/Images/backgroundpaws.jpeg")}>
+      {/* <Image style={{flex:1, opacity: 0.2}} source={require("../../assets/Images/backgroundpaws.jpeg")}> */}
+
+      <ImageBackground source={require("../../assets/Images/backgroundpaws.jpeg")} style={styles.backgroundImage}>
 
 
-
-
-                  <Content>
+                  <Content style={styles.overlay}>
                     <Card style={{padding: 3, margin: 10}}>
-                      <CardItem>
+                      <CardItem >
 
                         <Left style={{flex: 1, flexDirection:'row' }}>
                               <Icon name="pin" style={styles.icon} />
@@ -68,7 +68,7 @@ export default class Alert extends React.Component {
 
 
 
-       <Button primary block onPress={ () => this.props.navigation.navigate('AddAlert')}>
+       <Button block onPress={ () => this.props.navigation.navigate('AddAlert')}>
 
                    <Text>Ajouter une alerte</Text>
                  </Button>
@@ -93,5 +93,19 @@ export default class Alert extends React.Component {
   },
   icontrash: {
     color: '#4b6584'
-  }
+  },
+  backgroundImage: {
+    flex: 1,
+    width: null,
+    height: null,
+},
+overlay: {
+  
+  top: 0,
+  right: 0,
+  bottom: 0,
+  left: 0,
+  backgroundColor:  'rgba(0, 182, 255,0.2)',
+ 
+}
 });

@@ -2,10 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { ImagePicker } from 'expo';
 import { Camera, Permissions } from 'expo';
-
-
-import { ImageBackground, AppRegistry, View,Button,Keyboard, Text, TextInput, TouchableWithoutFeedback,
-  Alert, KeyboardAvoidingView, StyleSheet,Picker,Image} from 'react-native';
+import { ImageBackground,Picker, AppRegistry, View,Button,Keyboard, Text, TextInput, TouchableWithoutFeedback,
+  Alert, KeyboardAvoidingView, StyleSheet,Image} from 'react-native';
 
 // import of my ip config
 import url from '../../config';
@@ -68,7 +66,6 @@ constructor(){
   };
 
 
-
   handleSumbit(){
 
     console.log('signup from front handled...');
@@ -96,7 +93,7 @@ constructor(){
     }).then(function(data){
       console.log(data);
       ctx.props.handleUserValid(data.user._id,data.user.username,data.user.email,data.user.dog1,data.user.dog1gender,data.user.avatar,data.user.token);
-      ctx.props.navigation.navigate('MyAccount');
+      ctx.props.navigation.navigate('Mon compte');
     }).catch(function(err){
       console.log(err)
     })
@@ -109,54 +106,49 @@ constructor(){
 
   render() {
     let { image } = this.state;
-
+    const options = [{ value: 'female', label: 'female' },{value: 'male', label: 'male' }]
     return (
      <KeyboardAvoidingView style={styles.containerView} behavior="padding">
 
       {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss}> */}
       <View style={styles.loginScreenContainer}>
+      <Image source={require("../../assets/Images/dogo.png" )}  style={styles.logo}/>
+
         <View style={styles.loginFormView}>
         <Text style={styles.logoText}>Sign up</Text>
         <TextInput placeholder="Username"onChangeText={(e) => this.setState({username: e})} placeholderColor="#c4c3cb" style={styles.loginFormTextInput} />
           <TextInput placeholder="Email" onChangeText={(e) => this.setState({email: e})}placeholderColor="#c4c3cb" style={styles.loginFormTextInput} />
           <TextInput placeholder="Password" onChangeText={(e) => this.setState({password: e})}placeholderColor="#c4c3cb" style={styles.loginFormTextInput} secureTextEntry={true}/>
           <TextInput placeholder="Dog's Name" onChangeText={(e) => this.setState({dog1: e})}placeholderColor="#c4c3cb" style={styles.loginFormTextInput} />
-          {/* <TextInput placeholder="Dog's gender" onChangeText={(e) => this.setState({dog1gender: e})}placeholderColor="#c4c3cb" style={styles.loginFormTextInput} /> */}
-          {/* <TextInput placeholder="Dog's Photo" onChangeText={(e) => this.setState({avatar: e})}placeholderColor="#c4c3cb" style={styles.loginFormTextInput} /> */}
-                    <Picker
+
+     
+        <Text style={{
+  height: 43,
+  fontSize: 14,
+  paddingLeft: 10,
+    color:'#778ca3',
+   marginTop: 15,
+   color: "#778ca3"}}>Dog's gender: </Text>
+      
+            <Picker style={{width: 290, height: 88}} itemStyle={{color: "#778ca3",height: 44}}
+            
             selectedValue={this.state.dog1gender}
-            style={{height: 10, width:200}}
-            itemStyle={{fontSize:12}}
+            
             onValueChange={(itemValue, itemIndex) =>
               this.setState({dog1gender: itemValue})
             }>
-            <Picker.Item label="Garson" value="male" />
-            <Picker.Item label="Fille" value="female" />
+            <Picker.Item label="male" value="male" />
+            <Picker.Item label="female" value="female" />
           </Picker>
-
-
-
-        </View>
-
-
-      </View>
-
-
-
-
-
-
-
-    {/* </TouchableWithoutFeedback> */}
-    <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-        <Button
-          title="Ajouter un photo de ton chien"
+       
+          <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+        <Button color="#841584"
+          title="Ajouter une photo de ton chien"
           onPress={this._pickImage}
         />
         {image &&
           <Image source={{ uri: image }} style={{ width: 100, height: 100 }} />}
       </View>
-
       <Button
 buttonStyle={styles.loginButton}
 onPress={this.handleSumbit}
@@ -169,6 +161,15 @@ onPress={() => this.props.navigation.navigate('Signin')}
 title="Deja un compte? Sign in"
 color="#3897f1"
 />
+        </View>
+
+
+      </View>
+
+    {/* </TouchableWithoutFeedback> */}
+ 
+
+
     </KeyboardAvoidingView>
 
 
@@ -186,13 +187,21 @@ const styles=  StyleSheet.create({
   },
   loginScreenContainer: {
   flex: 1,
+  alignItems:'center'
   },
   logoText: {
-  fontSize: 20,
+  fontSize: 30,
   fontWeight: "200",
-  marginTop: 10,
-  marginBottom: 30,
+  marginTop: 50,
+  marginBottom: 20,
   textAlign: 'center',
+  color: "#778ca3"
+  },
+  logo: {
+  height: 83,
+  width: 210,
+  marginTop:50,
+
   },
   loginFormView: {
   flex: 1
@@ -205,25 +214,18 @@ const styles=  StyleSheet.create({
   borderColor: '#eaeaea',
   backgroundColor: '#fafafa',
   paddingLeft: 10,
-   marginLeft: 15,
-   marginRight: 15,
+    color:'#778ca3',
    marginTop: 5,
    marginBottom: 5,
-
    },
   loginButton: {
-  backgroundColor: '#3897f1',
+  color: '#778ca3',
   borderRadius: 5,
-  height: 25,
-   marginTop: 0,
+  margin: 20,
+  height: 45,
+  
    },
-    fbLoginButton: {
-      height: 45,
-      marginTop: 10,
-      backgroundColor: 'transparent',
-    },
-}
-)
+})
 
 function mapDispatchToProps(dispatch) {
   return {

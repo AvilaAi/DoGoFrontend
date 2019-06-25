@@ -1,11 +1,12 @@
 import React from 'react';
 import MapView from 'react-native-maps';
 import {Marker} from 'react-native-maps';
-
+import Participant from '../Promenade/Participant';
 import {bottomDivider,Image,ListItem,Avatar,containerStyle,Badge,Text} from 'react-native-elements';
-import {Modal,View,ImageBackground,Alert,StyleSheet} from 'react-native';
+import {Alert,View,ImageBackground,StyleSheet} from 'react-native';
 import {Footer,FooterTab, Content,Spinner,Card, Header,CardItem, Thumbnail, Left, Body, Right,Button,Icon} from 'native-base';
 import { connect } from 'react-redux';
+
 
 
 class PromenadeScreen extends React.Component{
@@ -16,13 +17,36 @@ class PromenadeScreen extends React.Component{
           participantCount:0,
           promenadeSelected:{},
           dataLoad : false,
-          joint:false
+          joint:false,
+          participantVisible:false
         };
+        this.deletePromenade=this.deletePromenade.bind(this),
+        this.jointClick=this.jointClick.bind(this),
+        this.voirParticipant=this.voirParticipant.bind(this)
         
-        this.jointClick=this.jointClick.bind(this)
     }
 
-    async componentDidMount() {
+    async voirParticipant(){
+      await this.setState({participantVisible:!this.state.participantVisible})
+    }
+
+    deletePromenade=()=>{
+      fetch(`${url}/deletePromenade/${this.props.promenade}`, {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({promenadeId: this.props.promenadeId})
+
+      })
+      .catch((error) => {
+      console.error(error);
+      })
+      Alert.alert("Promenade supprimée")
+    }
+
+ 
+
+
+    async componentWillMount() {
         var ctx = this;
         
         await fetch(`${url}/select_promenade?_id=${this.props.promenade}`)
@@ -42,19 +66,21 @@ class PromenadeScreen extends React.Component{
            
         }).catch(function(error){
           console.error(error);
+          Alert.alert('Promenade supprimée')
           
         });
         ctx.setState({dataLoad:true})
-      }
+    }
 
        jointClick= async ()=>{
         if(this.props.user.token){
+
           await this.setState({ joint : !this.state.joint })
           var participantCopy=[...this.state.participant]
           var participantAjouts = JSON.stringify({
             promenadeId:this.state.promenadeSelected._id,
             userId: this.props.user.userId,
-            username:this.props.user.username,
+            username:this.props.user.name,
             avatar:this.props.user.avatar
           });
           if(this.state.joint==true){ Alert.alert("Promenade ajoutée")
@@ -64,7 +90,7 @@ class PromenadeScreen extends React.Component{
             username:this.props.user.name,
             avatar:this.props.user.avatar
           })
-          this.setState({participant:participantCopy,participantCount:this.state.participant+1})
+          this.setState({participant:participantCopy,participantCount:this.state.participantCount+1})
       
           fetch(`${url}/add_participant`, {
             method: 'POST',
@@ -87,9 +113,8 @@ class PromenadeScreen extends React.Component{
             console.log(err)
           })
 
-        }else{Alert.alert("A la prochaine fois..?")
-        this.setState({participant:participantCopy,participantCount:this.state.participant-1})
-
+        }else{Alert.alert("A la prochaine fois..?");
+        this.setState({participantCount:this.state.participantCount-1});
 
         fetch(`${url}/delete_participant/${this.props.promenade}`, {
         method: 'DELETE',
@@ -100,26 +125,36 @@ class PromenadeScreen extends React.Component{
         .catch((error) => {
         console.error(error);
       });
+      this.setState({participant:data.participant});
+
       
           
-          }
-
-        }else{
-          this.props.navigation.navigate('Signin')
-        }
+       }
+      }else{
+        this.props.navigation.navigate('Signin')
+     }
         
 
-      }
+    }
 
 
 
     render(){       
-        
+      var newDate = new Date(this.state.promenadeSelected.date);
+      var dateAffiche=newDate.getDate() + "/" + (newDate.getMonth() + "/" + newDate.getFullYear());
+  
+      var listParticipant= this.state.participant.map((item,i)=>{
+          return(
+
+            <Participant key={i}username={item.username} avatar={item.avatar}/>
+          )})
+
+
         return(
             <View style={{flex:1}}>
-             { this.state.dataLoad ? 
-             (
-            <Card style={{flex: 1}}>
+             { 
+               this.state.dataLoad 
+               ?(<Card style={{flex: 1}}>
 
 <CardItem cardBody >
            
@@ -174,13 +209,13 @@ class PromenadeScreen extends React.Component{
         <Left>
             <Button transparent>
             <Icon active name="calendar" />
-            <Text>{this.state.promenadeSelected.date}</Text>
+            <Text>{dateAffiche}</Text>
             </Button>
         </Left>
         <Body>
-            <Button transparent>
+            <Button transparent onPress={this.voirParticipant}>
             <Icon active name="people" />
-            <Text>{this.state.promenadeSelected.participant.length}participants</Text>
+            <Text>{this.state.participantCount}participants</Text>
             </Button>
         </Body>
         <Right>
@@ -195,12 +230,12 @@ class PromenadeScreen extends React.Component{
 
     
 
-<View>
+<View >
 
   {(this.state.promenadeSelected.userId._id==this.props.user.userId)?
-    <Button block bordered primary onPress={ () => this.props.navigation.navigate('CameraScreen')}>
-    <Icon active name='people'/>
-    <Text>Voir les participants</Text>
+    <Button block bordered primary onPress={this.deletePromenade}>
+    <Icon active name='trash'/>
+    <Text>Supprimer</Text>
     </Button>
   :
   
@@ -208,8 +243,8 @@ class PromenadeScreen extends React.Component{
      onPress={this.jointClick}
     style={this.state.joint ? styles.activeButton : styles.inactiveButton} 
     >
-    <Icon name='arrow-forward' />
-    <Text> I Joint</Text>
+    <Icon name='heart' />
+    <Text>Rejoindre</Text>
     </Button>
   }
 
@@ -217,18 +252,32 @@ class PromenadeScreen extends React.Component{
     <Icon active name='camera'/>
     <Text>Prendre photo</Text>
     </Button>
+    <View style={{display:'flex',flex:'row'}}>
+{
+this.state.participantVisible 
+        ? listParticipant
+        :null
+  }
+  </View>
 </View>
+
     </Card>
+
+      
+)  
+    
             
-        ) 
-        : 
-        (   <Content>
+        
+        : (   <Content>
             <Spinner />
             <Spinner color='red' />
             <Spinner color='green' />
             <Spinner color='blue' />
           </Content>)
           }
+
+
+
 
 <Footer>
       <FooterTab>

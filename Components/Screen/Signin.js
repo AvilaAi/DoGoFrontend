@@ -1,6 +1,6 @@
 import React from 'react';
 import { ImageBackground, AppRegistry, View, Keyboard,  TextInput, TouchableWithoutFeedback,
-  Alert, KeyboardAvoidingView, StyleSheet, Button, Text, Image} from 'react-native';
+  Alert, KeyboardAvoidingView, StyleSheet, Button,Text, Image} from 'react-native';
 {// import { Button, Text } from 'native-base';
 }
   import { connect } from 'react-redux';
@@ -48,9 +48,9 @@ class Signin extends React.Component {
         data.isUserExist
           ? (
               console.log("ok"),
-           
-              this.props.handleUserValid(data.user._id,data.user.username,data.user.email,data.user.dog1,data.user.dog1gender,data.user.avatar,data.user.token),
-              this.props.navigation.navigate('ListScreen')
+              Alert.alert('Welcome back'),
+              this.props.handleUserValid(data.user._id,data.user.username,data.user.email,data.user.dog1,data.user.dog1gender,data.user.avatar,data.user.token)
+              // this.props.navigation.navigate('Mon compte')
 
             )
           : this.setState({errorMessage: 'Wrong credentials, try again...'})
@@ -65,12 +65,13 @@ class Signin extends React.Component {
 
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.loginScreenContainer}>
+        <Image source={require("../../assets/Images/dogo.png" )}  style={styles.logo}/>
+
           <View style={styles.loginFormView}>
-          <Image source={require("../../assets/Images/dogo.png" )}  style={styles.logo}/>
           <Text style={styles.logoText}>Connexion</Text>
             <TextInput onChangeText={(e) => this.setState({email: e})} placeholder="Username" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} />
             <TextInput onChangeText={(e) => this.setState({password: e})} placeholder="Password" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} secureTextEntry={true}/>
-            <Text style={{color:'red', marginLeft:20}}>{this.state.errorMessage}</Text>
+            <Text style={{color:'#fd79a8', marginLeft:2}}>{this.state.errorMessage}</Text>
 
             {//
             // <Button info buttonStyle={styles.loginButton}><Text> Valider </Text></Button>
@@ -80,14 +81,14 @@ class Signin extends React.Component {
             }
 
             <Button
-              buttonStyle={styles.loginButton}
+              style={styles.loginButton}
               onPress={this.handleSumbit}
               title="Login"
             />
            
 
             <Button
-              buttonStyle={styles.fbLoginButton}
+              buttonStyle={{color:'#778ca3'}}
               onPress={() => this.props.navigation.navigate('Signup')}
               title="Pas de compte? Inscrivez-vous !"
               color="#3897f1"
@@ -124,6 +125,7 @@ const styles=  StyleSheet.create({
       },
       loginScreenContainer: {
       flex: 1,
+      alignItems:'center'
       },
       logoText: {
       fontSize: 30,
@@ -136,9 +138,8 @@ const styles=  StyleSheet.create({
       logo: {
       height: 83,
       width: 210,
-      marginTop: 50,
-      marginLeft: 83,
-      textAlign: 'center',
+      marginTop:50,
+    
       },
       loginFormView: {
       flex: 1
@@ -151,17 +152,16 @@ const styles=  StyleSheet.create({
       borderColor: '#eaeaea',
       backgroundColor: '#fafafa',
       paddingLeft: 10,
-       marginLeft: 15,
-       marginRight: 15,
+        color:'#778ca3',
        marginTop: 5,
        marginBottom: 5,
        },
       loginButton: {
-      backgroundColor: '#3897f1',
+      color: '#778ca3',
       borderRadius: 5,
       margin: 20,
       height: 45,
-       marginTop: 10,
+      
        },
 })
 

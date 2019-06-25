@@ -1,24 +1,31 @@
 import React, { Component } from 'react';
-import { View, Button, Keyboard, AppRegistry, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import { View, ScrollView,Button, Keyboard, AppRegistry, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import { Item, Label, Text } from 'native-base';
 import { Divider } from 'react-native-elements';
-
+import Signin from '../Screen/Signin';
 import { connect } from 'react-redux';
 
 class MyAccount extends Component {
+ constructor(){
+   super()
 
+ }
 
   render() {
+
+    if(!this.props.user.token){
+      return (<Signin/>)
+    }else{
     return (
 
 // récupération des données du sign up
 
       <View style={styles.container}>
 
-          <View style={styles.display}>
+          <ScrollView style={styles.display}>
 
               <Label style={styles.label}>Votre nom</Label>
-                <Text> {this.props.user.firstName} </Text>
+                <Text> {this.props.user.name} </Text>
 
               <Label style={styles.label}>Nom de votre chien</Label>
                 <Text> {this.props.user.dog1} </Text>
@@ -29,7 +36,7 @@ class MyAccount extends Component {
               <Divider style={{height:10, backgroundColor: "#FFFFFF"}} />
 
               <View style={{flexDirection:"row", justifyContent:"center", alignItems:"center"}}>
-                <Image source={require("../../assets/Images/doge.png")} style={{height: 80, width: 80, borderRadius: 50 }}/>
+                <Image source={{uri: this.props.user.avatar}} style={{height: 80, width: 80, borderRadius: 50 }}/>
               </View>
 
               <Divider style={{height:10, backgroundColor: "#FFFFFF"}} />
@@ -51,10 +58,25 @@ class MyAccount extends Component {
                </TouchableOpacity>
              </View>
 
-          </View>
+             <View style={{display:'flex',justifyContent:"center", alignItems:"center"}}>
+                <TouchableOpacity
+                  style = {styles.submitButton}
+                  onPress={() => this.props.navigation.navigate('SearchScreen')}>
+                 <Text style = {styles.submitButtonText}> Trouver une promenade </Text>
+               </TouchableOpacity>
+               <TouchableOpacity
+                  style = {styles.submitButton}
+                  onPress={() => this.props.navigation.navigate('AddPromenade')}>
+                 <Text style = {styles.submitButtonText}> Ajouter une promenade </Text>
+               </TouchableOpacity>
+
+             </View>
+
+          </ScrollView>
 
         </View>
 );
+    }
 }
 
 };

@@ -49,7 +49,7 @@ class Home extends React.Component {
           this.state = {
               fontLoaded: false
           };
-          this.onClick=this.onClick.bind(this)
+          
       }
 
   async componentWillMount() {
@@ -60,31 +60,22 @@ class Home extends React.Component {
     this.setState({ fontLoaded: true });
 }
 
-onClick=()=>{
-  if(this.props.user.token){
-    this.props.navigation.navigate('AddPromenade')
-  }else{
-    this.props.navigation.navigate('Signin')
-  }
-  
-
-}
   // Traitement concernant le Header de la navigation : il masque le header
-    static navigationOptions = {
+    static navigationOptions  =({navigation})=> ({
     headerTitle: "DoGoHome",
     headerRight: (
-      <Ionicons onPress={() => this.props.navigation.navigate('Mon compte')} name='ios-person' size={25} color='#fd9644' style={{marginRight: 20}}/>
+      <Ionicons onPress={() => navigation.navigate('Mon compte')} name='ios-person' size={25} color='#0FA1AE' style={{marginRight: 20}}/>
     ),
     headerTitle: (
       <Image source={require("../../assets/Images/dogo.png" )}  style={{ width: 84, height: 33 }}/>
   )
-  };
+  });
 
  render() {
   //  console.log("fontLoaded",this.state.fontLoaded);
    return (
 
-     <ImageBackground style={{height: "100%"}} source={require("../../assets/Images/chiens7.jpeg")}>
+     <ImageBackground style={{height: "100%"}} source={require("../../assets/Images/home5.jpg")}>
 
 
       <View style={{flex:1, alignItems:'center', }}>
@@ -122,7 +113,7 @@ onClick=()=>{
 
 
 <View >
-
+{/* 
 <Button danger style={{marginHorizontal:85, position: 'center'}} onPress={() => this.props.navigation.navigate('Signin')}>
 <Text >Signin</Text>
 </Button>
@@ -153,7 +144,7 @@ onClick=()=>{
 
 <Button danger style={{marginHorizontal:85, position: 'center'}} onPress={() => this.props.navigation.navigate('AddAlert')}>
 <Text >AddAlert</Text>
-</Button>
+</Button> */}
 
 
 
@@ -161,12 +152,12 @@ onClick=()=>{
 
 
 
-<Button success style={{marginHorizontal:85, marginBottom:10, position: 'center'}} onPress={() => this.props.navigation.navigate('SearchScreen')}>
+<Button info style={{marginHorizontal:85, marginBottom:10, position: 'center'}} onPress={() => this.props.navigation.navigate('SearchScreen')}>
 <Text >Trouver une promenade</Text>
 
 </Button>
 
-<Button bordered success style={{marginHorizontal:80, marginBottom:20, position: 'center'}} onPress={this.onClick}>
+<Button info style={{marginHorizontal:80, marginBottom:20, position: 'center'}} onPress={() => this.props.navigation.navigate('AddPromenade')}>
 <Text >Proposer une promenade</Text>
 </Button>
 

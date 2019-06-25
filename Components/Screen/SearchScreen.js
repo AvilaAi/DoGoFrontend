@@ -5,9 +5,11 @@ import { Location, Permissions } from 'expo';
 import { Header, Content, Icon, Item, Input, FooterTab,Button} from 'native-base';
 import TimePicker from 'react-native-24h-timepicker';
 import DatePicker from 'react-native-datepicker';
+import { connect } from 'react-redux';
 
 
-export default class SearchScreen extends React.Component {
+
+class SearchScreen extends React.Component {
 
 constructor(){
   super();
@@ -19,15 +21,20 @@ constructor(){
        puppyButton:false,
        onlygirlsButton:false,
        time: null,
-       chosenDate: new Date()},
-       this.setDate = this.setDate.bind(this);
+       chosenDate: null
+      };
 
+       this.chercherPromenade=this.chercherPromenade.bind(this)
 }
 
-  setDate(newDate) {
-    this.setState({ chosenDate: newDate });
 
+async chercherPromenade(){
+  await this.props.handleChercheValid(this.state.chosenDate);
+  console.log(this.state.chosenDate);
+  this.props.navigation.navigate('PromenadeTrouve');
+  
 }
+
 
      onCancel() {
        this.TimePicker.close();
@@ -122,7 +129,7 @@ _getLocationAsync = async () => {
         <View style={{flex:1, marginTop:30, marginLeft:20}}>
           <DatePicker
             style={{width: 200}}
-            date={this.state.date}
+            date={this.state.chosenDate}
             mode="date"
             placeholder="Date"
             format="DD/MM/YYYY"
@@ -131,7 +138,7 @@ _getLocationAsync = async () => {
             confirmBtnText="Confirmer"
             cancelBtnText="Annuler"
             showIcon={false}
-            onDateChange={(date) => {this.setState({date: date})}}
+            onDateChange={(date) => {this.setState({chosenDate: date})}}
           />
         </View>
 
@@ -152,7 +159,7 @@ _getLocationAsync = async () => {
         </View>
 
         <FooterTab style={{padding:20,marginLeft:10,marginRight:30}} >
-        <Button primary onPress={ () => this.props.navigation.navigate('ListScreen')}>
+        <Button primary onPress={ this.chercherPromenade}>
          <Text>Valider</Text>
 
                   </Button>
@@ -180,3 +187,19 @@ const styles = StyleSheet.create({
     justifyContent:'center',
   },
 })
+
+function mapDispatchToProps(dispatch) {
+  return {
+    handleChercheValid: function(chosenDate) {
+        dispatch({
+          type: 'chercherPromenade',
+          chosenDate:chosenDate
+        })
+    }
+  }
+}
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(SearchScreen);

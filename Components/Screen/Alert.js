@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-import {StyleSheet, ImageBackground, AppRegistry, View, Image} from 'react-native';
-import {Button, Icon, Container, Header, Content, Card, CardItem, Thumbnail, Text, Left, Body, Right} from 'native-base';
+import {StyleSheet, ImageBackground} from 'react-native';
+import {Button, Icon, Container,  Content, Card, CardItem,  Text, Left, Body, Right} from 'native-base';
 
 
 

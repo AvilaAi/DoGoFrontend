@@ -1,26 +1,19 @@
 import React from 'react';
-import MapView from 'react-native-maps';
-import {Marker} from 'react-native-maps';
-
-import {bottomDivider,Image,ListItem,Avatar,containerStyle,Badge,Text} from 'react-native-elements';
+import {Text} from 'react-native-elements';
 import {TouchableOpacity,View,ImageBackground,StyleSheet} from 'react-native';
-import { Card, Header,CardItem, Thumbnail, Left,H3, Body, Right,Button,Icon} from 'native-base';
+import { Card,CardItem, Thumbnail, Left,H3, Body, Right,Button,Icon} from 'native-base';
 import { connect } from 'react-redux';
 
-
-
+// composant de chaque promenade
 class Promenade extends React.Component{
   constructor(){
     super()
     this.voir=this.voir.bind(this)
-   
-    
   }
   
   voir= async()=>{
-   
+  //  quand je clique sur une promenade, je mets son id dans le store par redux
     await this.props.promenadeSelected(this.props.id);
-  
     this.props.navigation.navigate('PromenadeScreen');
     
   }

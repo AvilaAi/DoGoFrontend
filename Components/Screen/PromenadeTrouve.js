@@ -1,7 +1,7 @@
 import React from 'react';
-import { ImageBackground, RefreshControl,AppRegistry, Image,View,ScrollView} from 'react-native';
+import { RefreshControl,ScrollView} from 'react-native';
 import Promenade from '../Promenade/Promenade';
-import {Header,Tab,Tabs,H3,TabHeading,Button,Content,Right,Spinner,Icon,Text,Footer,FooterTab, Container} from 'native-base';
+import {Tab,Tabs,TabHeading,Button,Content,Spinner,Icon,Text,Footer,FooterTab, Container} from 'native-base';
 import url from '../../config';
 import { connect } from 'react-redux';
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Button, Keyboard, AppRegistry, Text, TextInput, TouchableWithoutFeedback, KeyboardAvoidingView, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import { View, Button, KeyboardAvoidingView, StyleSheet, Image} from 'react-native';
 import { Picker, Icon, Item, Label, Input} from 'native-base';
 import { Divider } from 'react-native-elements';
 

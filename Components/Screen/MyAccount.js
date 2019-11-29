@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, ScrollView,Button, Keyboard, AppRegistry, StyleSheet, Image, TouchableOpacity} from 'react-native';
-import { Item, Label, Text } from 'native-base';
+import { View, ScrollView, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import { Label, Text } from 'native-base';
 import { Divider } from 'react-native-elements';
 import Signin from '../Screen/Signin';
 import { connect } from 'react-redux';

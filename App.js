@@ -1,11 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import {FormLabel, FormInput} from 'react-native-elements';
 import Navigation from './Components/Navigation/Navigation';
-import { Container, Header, Content, Button, Icon, Item, Input, Footer, DatePicker} from 'native-base';
-import MapView from 'react-native-maps';
-import {Marker} from 'react-native-maps';
-import { Location, Permissions } from 'expo';
 
 import userData from './Reducers/user.reducer';
 import promenade from'./Reducers/promenade.reducer';

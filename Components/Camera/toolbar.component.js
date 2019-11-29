@@ -3,8 +3,6 @@ import { Camera } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
 import { Col, Row, Grid } from "react-native-easy-grid";
 import { View, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
-
-
 import styles from './styles';
 
 const { FlashMode: CameraFlashModes, Type: CameraTypes } = Camera.Constants;

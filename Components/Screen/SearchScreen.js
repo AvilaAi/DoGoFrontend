@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Picker,Divider, Slider, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { Location, Permissions } from 'expo';
 import { Header, Content, Icon, Item, Input, FooterTab,Button} from 'native-base';

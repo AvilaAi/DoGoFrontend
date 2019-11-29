@@ -4,12 +4,9 @@ import {
   createBottomTabNavigator,
   createAppContainer,
   createStackNavigator,
-  createDrawerNavigator,
-  DrawerItems,
 } from 'react-navigation';
 import {
   Platform,
-  StyleSheet
 } from 'react-native'
 
 
@@ -22,7 +19,6 @@ import Signup from '../Screen/Signup';
 import Signin from '../Screen/Signin';
 import MyAccount from '../Screen/MyAccount';
 import Account from '../Screen/Account';
-import NextPromenade from '../Screen/NextPromenade';
 import OldPromenade from '../Screen/OldPromenade';
 import MyAccountEdit from '../Screen/MyAccountEdit';
 import Alert from '../Screen/Alert';
@@ -32,21 +28,7 @@ import PromenadeTrouve from '../Screen/PromenadeTrouve';
 import MesPromenades from '../Screen/MesPromenades';
 
 
-// Manque page inscription faite chez Ai et Produit faite aussi chez Ai en modele
-
-
-
-
-
-
-// Manque page inscription faite chez Ai et Produit faite aussi chez Ai en modele
-
 import { Ionicons, Entypo } from '@expo/vector-icons';
-import {Icon } from 'native-base';
-
-
-
-
 
 // Création de ma Bottom Navigation
 const MainNavigator = createBottomTabNavigator({
@@ -135,6 +117,4 @@ var StackNavigator = createStackNavigator({
 
 
 
-
-//j'exporte mon StackNavigator
  export default Navigation = createAppContainer(StackNavigator);

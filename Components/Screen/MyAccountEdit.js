@@ -16,7 +16,7 @@ export default class MyAccount extends Component {
       password: "",
     };
   }
-  onValueChange(value: string) {
+  onValueChange(value) {
     this.setState({
       dog1gender: value
     });
